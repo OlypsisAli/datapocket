@@ -32,6 +32,10 @@ import {
   aes,
   decryptAES,
 } from "../lib/utils";
+import initFirebase from "../firebase/initFirebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import getCollection from "../Components/cloudFirestore/read";
+import db from "../firebase/initFirebase";
 
 export default function Home() {
   const [count, setCount] = useState(0);
@@ -55,6 +59,12 @@ export default function Home() {
     console.log("closed");
   };
   //
+
+  useEffect(() => {
+    db.collection("testAddress").onSnapshot((snapshot) =>
+      console.log(snapshot.docs.map((doc) => doc.data()))
+    );
+  }, []);
 
   // const [window, setWindow] = useState(false);
 
@@ -685,6 +695,41 @@ Cancel
     xhr.send(formData);
   };
 
+  const deleteAction = (value, rowData, rowIndex) => {
+    const deleteHandler = () => {
+      console.log("value, rowData, rowIndex", value, rowData, rowIndex);
+    };
+
+    return (
+      <Button
+        type="error-light"
+        auto
+        scale={1 / 3}
+        font="12px"
+        onClick={() => console.log(deleteHandler)}
+      >
+        Delete
+      </Button>
+    );
+  };
+
+  const downloadAction = (value, rowData, rowIndex) => {
+    const downloadHandler = () => {
+      console.log("value, rowData, rowIndex", value, rowData, rowIndex);
+    };
+    return (
+      <Button
+        type="success-light"
+        auto
+        scale={1 / 3}
+        font="12px"
+        onClick={() => console.log(downloadHandler)}
+      >
+        Download
+      </Button>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -744,23 +789,33 @@ Cancel
                 data={cidData}
                 onChange={(value) => setData(value)}
                 onRow={
-                  (Table.TableOnRowClick = (e) => {
-                    console.log("e", e), decryptData(e);
-                  })
-
-                  // window.open(
-                  //   "https://dweb.link/ipfs/" + e.cid["/"],
-                  //   "_blank"
-                  // )
+                  (e) => console.log("e", e)
+                  // (Table.TableOnRowClick = (e) => {
+                  //   console.log("e", e)
+                  //   //  decryptData(e);
+                  // })
                 }
               >
                 <Table.Column prop="name" label="Name" />
+
                 {/* <Table.Column prop="cid:" label="Cid" /> */}
                 <Table.Column
                   // prop={"cid[/]"}
                   prop="cid"
                   label="Cid"
                   width={150}
+                />
+                <Table.Column
+                  prop="download"
+                  label=""
+                  width={150}
+                  render={downloadAction}
+                />
+                <Table.Column
+                  prop="delete"
+                  label=""
+                  width={150}
+                  render={deleteAction}
                 />
               </Table>
             )}
@@ -875,3 +930,52 @@ Cancel
 //     </>
 //   )
 // }
+
+() => {
+  const dataSource = [
+    { property: "type", description: "Content type", operation: "" },
+    { property: "Component", description: "DOM element to use", operation: "" },
+    { property: <Text b>bold</Text>, description: "Bold style", operation: "" },
+  ];
+
+  const [data, setData] = React.useState(dataSource);
+
+  const renderAction = (value, rowData, rowIndex) => {
+    const updateHandler = () => {
+      setData((last) => {
+        console.log("value", value, "rowData", rowData, "rowIndex", rowIndex);
+        return last.map((item, dataIndex) => {
+          if (dataIndex !== rowIndex) return item;
+          return {
+            ...item,
+            property: Math.random().toString(16).slice(-5),
+          };
+        });
+      });
+    };
+    return (
+      <Button
+        type="secondary"
+        auto
+        scale={1 / 3}
+        font="12px"
+        onClick={updateHandler}
+      >
+        Update
+      </Button>
+    );
+  };
+
+  return (
+    <Table data={data} onChange={(value) => setData(value)}>
+      <Table.Column prop="property" label="property" />
+      <Table.Column prop="description" label="description" />
+      <Table.Column
+        prop="operation"
+        label="operation"
+        width={150}
+        render={renderAction}
+      />
+    </Table>
+  );
+};
