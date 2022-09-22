@@ -225,15 +225,14 @@ export default function Home() {
           >
             <Modal.Title>Sign In</Modal.Title>
             <Modal.Subtitle>
-              DataPocket Beta Currently Requires Metamask
+              DataPocket Beta Currently Requires Metamask.
             </Modal.Subtitle>
-            {/* <img src={metaMaskLogo.src} /> */}
-            {/* <Modal.Content>
-        <p>Some content contained within the modal.</p>
-      </Modal.Content> */}
-            {/* <Modal.Action passive onClick={() => setState(false)}>
-        Cancel
-      </Modal.Action> */}
+            <Link
+              href="https://www.youtube.com/watch?v=uD8V7lwW2no"
+              target="_blank"
+            >
+              <a target="_blank">Demo Video</a>
+            </Link>
             <Modal.Action passive onClick={web3Signin}>
               Connect
             </Modal.Action>
@@ -247,19 +246,7 @@ export default function Home() {
             onClose={closeHandler}
             className={styles.metaMaskLogo}
           >
-            {/* <Modal.Title>Sign In</Modal.Title> */}
             <Modal.Subtitle>Metamask Not Detected</Modal.Subtitle>
-            {/* <img src={metaMaskLogo.src} /> */}
-            {/* <Modal.Content>
-    <p>Some content contained within the modal.</p>
-  </Modal.Content> */}
-            {/* <Modal.Action passive onClick={() => setState(false)}>
-    Cancel
-  </Modal.Action> */}
-            {/* <Modal.Action passive onClick={web3Signin}>
-        Connect
-      </Modal.Action> */}
-            {/* <Modal.Action>Connect</Modal.Action> */}
           </Modal>
         );
       }
@@ -273,24 +260,6 @@ export default function Home() {
     const accounts = await provider.listAccounts();
     console.log("encryptData hit");
     console.log("e", e);
-    // let publicKey = await getPublicKey();
-    // console.log("publicKey", publicKey);
-
-    // encryptedMessage = bufferToHex(
-    //         Buffer.from(
-    //           JSON.stringify(
-    //             encrypt({
-    //               publicKey: publicKey,
-    //               data: encryptresult[0],
-    //               // data: e.target.files[0],
-    //               version: "x25519-xsalsa20-poly1305",
-    //             })
-    //           ),
-    //           "utf8"
-    //         )
-    //       );
-    //       console.log("encryptedMessage", encryptedMessage);
-    //       encryptresult[0] = encryptedMessage;
 
     let file = e.target.files[0];
     let fileName = e.target.files[0].name;
@@ -341,16 +310,12 @@ export default function Home() {
       let cypherObj;
       // read text from URL location
       var request = new XMLHttpRequest();
-      // https://bafybeifm4giovpt2eylchcwe6augmtjzivf4xrxihtg3bcuefjlyu72qmq.ipfs.dweb.link/
-      //bafybeifm4giovpt2eylchcwe6augmtjzivf4xrxihtg3bcuefjlyu72qmq.ipfs.dweb.link/
-      // request.open("GET", "https://dweb.link/ipfs/" + cid, true);
       request.open(
         "GET",
         "https://shuttle-5.estuary.tech/gw/ipfs/" + cid,
         true
       );
 
-      // request.open("GET", "https://bafybeifm4giovpt2eylchcwe6augmtjzivf4xrxihtg3bcuefjlyu72qmq.ipfs.dweb.link/", true);
       request.responseType = "blob";
       request.send(null);
       request.onreadystatechange = async function () {
@@ -560,19 +525,7 @@ export default function Home() {
           onClose={closeHandler}
           className={styles.metaMaskLogo}
         >
-          {/* <Modal.Title>Sign In</Modal.Title> */}
           <Modal.Subtitle>Metamask Not Detected</Modal.Subtitle>
-          {/* <img src={metaMaskLogo.src} /> */}
-          {/* <Modal.Content>
-<p>Some content contained within the modal.</p>
-</Modal.Content> */}
-          {/* <Modal.Action passive onClick={() => setState(false)}>
-Cancel
-</Modal.Action> */}
-          {/* <Modal.Action passive onClick={web3Signin}>
-  Connect
-</Modal.Action> */}
-          {/* <Modal.Action>Connect</Modal.Action> */}
         </Modal>
       );
     }

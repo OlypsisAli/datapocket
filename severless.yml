@@ -1,0 +1,4 @@
+datapocket:
+  component: "@sls-next/serverless-component@1.10.0"
+  inputs:
+    domain: "datapocket.xyz"
