@@ -662,7 +662,7 @@ export default function Home() {
         };
       }
     };
-    xhr.open("POST", "https://shuttle-5.estuary.tech/content/add");
+    xhr.open("POST", "https://api.estuary.tech/content/add");
     // xhr.open("POST", "https://api.estuary.tech/content/add");
     xhr.setRequestHeader(
       "Authorization",
