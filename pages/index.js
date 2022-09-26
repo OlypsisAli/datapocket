@@ -43,10 +43,6 @@ export default function Home() {
   const [collectionUUid, setcollectionUUid] = useState();
   const { setToast } = useToasts();
   const { visible, setVisible, bindings } = useModal();
-
-  // let window;
-
-  //
   const [welcomeState, setwelcomeState] = useState(false);
   const [state, setState] = useState(true);
   const handler = () => setState(true);
@@ -54,105 +50,17 @@ export default function Home() {
     setState(true);
     console.log("closed");
   };
-  //
-
-  // const [window, setWindow] = useState(false);
-
-  // useEffect(() => {
-  //   if (collectionUUid) {
-  //     console.log("use effect");
-  //     fetch("https://api.estuary.tech/content/stats?offset=0&limit=500", {
-  //       method: "GET",
-  //       // mode: "no-cors",
-  //       headers: {
-  //         Authorization: "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
-  //       },
-  //     })
-  //       .then((data) => {
-  //         console.log("Response", data);
-  //         return data.json();
-  //       })
-  //       .then((data) => {
-  //         setData(data);
-  //         console.log("data from response", data);
-  //       });
-  //   }
-  // }, 10000);
-
-  // useEffect(() => {
-  //   fetch("https://api.estuary.tech/collections/create", {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
-  //     },
-  //     body: JSON.stringify({
-  //       name: "0x78ff9f195c55475bbdbf84a9734acc9d3bb2bd63aa5fff65973e058bc2a0bd5c7c24dbff60212d5d53b97cac1c0abb415c38fb1453eeb348d64a6e4b4234ac3d1b",
-  //       description:
-  //         "0x78ff9f195c55475bbdbf84a9734acc9d3bb2bd63aa5fff65973e058bc2a0bd5c7c24dbff60212d5d53b97cac1c0abb415c38fb1453eeb348d64a6e4b4234ac3d1b",
-  //     }),
-  //   })
-  //     .then((data) => {
-  //       let fakedata = [
-  //         {
-  //           name: "bob.mp3",
-  //           cid: "xyzbool",
-  //         },
-  //       ];
-  //       setData(fakedata);
-  //       console.log("data", data);
-  //       return data.json();
-  //     })
-  //     .then((data) => {
-  //       // this.setState({ ...data });
-  //     });
-
-  //   console.log("use effect");
-  //   fetch("https://api.estuary.tech/collections/create", {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
-  //     },
-  //     body: JSON.stringify({
-  //       name: "0x78ff9f195c55475bbdbf84a9734acc9d3bb2bd63aa5fff65973e058bc2a0bd5c7c24dbff60212d5d53b97cac1c0abb415c38fb1453eeb348d64a6e4b4234ac3d1b",
-  //       description:
-  //         "0x78ff9f195c55475bbdbf84a9734acc9d3bb2bd63aa5fff65973e058bc2a0bd5c7c24dbff60212d5d53b97cac1c0abb415c38fb1453eeb348d64a6e4b4234ac3d1b",
-  //     }),
-  //   })
-  //     .then((data) => {
-  //       let fakedata = [
-  //         {
-  //           name: "bob.mp3",
-  //           cid: "xyzbool",
-  //         },
-  //       ];
-  //       setData(fakedata);
-  //       console.log("data", data);
-  //       return data.json();
-  //     })
-  //     .then((data) => {
-  //       // this.setState({ ...data });
-  //     });
-  // }, []);
 
   function uploadAndEncrpytToast() {
     console.log("uploadingToast hit");
-    // const { setToast } = useToasts()
-    // const click = () =>
     setToast({
       text: <p>File Upload Started: Please keep window open</p>,
       delay: 10000,
     });
-    // return (
-    //   <Button scale={2 / 3} auto onClick={click}>
-    //     Show Toast
-    //   </Button>
-    // );
   }
 
   function agreeToExportPublicKey() {
     console.log("uploadingToast hit");
-    // const { setToast } = useToasts()
-    // const click = () =>
     setToast({
       text: (
         <p>
@@ -161,11 +69,6 @@ export default function Home() {
       ),
       delay: 10000,
     });
-    // return (
-    //   <Button scale={2 / 3} auto onClick={click}>
-    //     Show Toast
-    //   </Button>
-    // );
   }
 
   function uploadSuccess() {
@@ -188,10 +91,6 @@ export default function Home() {
           className={styles.metaMaskLogo}
         >
           <Modal.Title>Welcome to DataPocket beta!</Modal.Title>
-          {/* <Modal.Subtitle>
-          Welcome to the DataPocket beta! 
-          </Modal.Subtitle> */}
-          {/* <img src={metaMaskLogo.src} /> */}
           <Modal.Content>
             <p>
               DataPocket allows you to have full control of your personal files
@@ -200,13 +99,9 @@ export default function Home() {
               and will become more feature rich as the weeks go by.
             </p>
           </Modal.Content>
-          {/* <Modal.Action passive onClick={() => setState(false)}>
-  Cancel
-</Modal.Action> */}
           <Modal.Action passive onClick={() => setwelcomeState(false)}>
             Get Started!
           </Modal.Action>
-          {/* <Modal.Action>Connect</Modal.Action> */}
         </Modal>
       </>
     );
@@ -214,7 +109,6 @@ export default function Home() {
 
   const showmodal = () => {
     console.log("showmodel hit");
-    // setState(true);
     if (typeof window !== "undefined") {
       if (window.ethereum && window.ethereum.isMetaMask) {
         return (
@@ -236,7 +130,6 @@ export default function Home() {
             <Modal.Action passive onClick={web3Signin}>
               Connect
             </Modal.Action>
-            {/* <Modal.Action>Connect</Modal.Action> */}
           </Modal>
         );
       } else {
@@ -265,11 +158,8 @@ export default function Home() {
     let fileName = e.target.files[0].name;
     console.log("file", file);
     console.log("fileName", fileName);
-    // let encryptedMessage;
     console.log("e on load", e);
 
-    //Returns key and cyphertext
-    // let encryptresult = await encryptFile(reader.result);
     agreeToExportPublicKey();
     //1. encrypt
     let encryptresult = await aes(file);
@@ -280,12 +170,6 @@ export default function Home() {
     let dataBlob = new Blob([encryptresult], { type: "application/json" });
     dataBlob.name = e.target.files[0].name;
     console.log("dataBlob", dataBlob);
-
-    //2. zip
-    // let zippedFile = await zipFiles(encryptresult, fileName);
-
-    //3. send
-    // console.log("zippedFile", zippedFile);
     uploadAndEncrpytToast();
     upload(dataBlob, fileName);
   };
@@ -300,10 +184,6 @@ export default function Home() {
     let cyphertext;
     console.log("cid", cid);
     let response;
-    // https://dweb.link/ipfs/" + e.cid["/"]
-
-    ///////
-    // let publicKey = await getPublicKey();
 
     async function getText() {
       console.log("get text hit");
@@ -346,49 +226,6 @@ export default function Home() {
           );
         }
       };
-
-      request.onerror = (e) => {
-        console.log('there was an error trying with api.estuary')
-        var request = new XMLHttpRequest();
-        request.open(
-          "GET",
-          `https://api.estuary.tech/public/by-cid/${cid}`,
-          true
-        );
-  
-        request.responseType = "blob";
-        request.send(null);
-        request.onreadystatechange = async function () {
-          if (request.readyState === 4 && request.status === 200) {
-            response = request.response;
-            console.log("request.response;", response);
-  
-            console.log(
-              "JSON.parse(response)",
-              JSON.parse(await response.text())
-            );
-  
-            response = JSON.parse(await response.text());
-  
-            console.log("response", response);
-            console.log("response.encrypted", response.encrypted);
-            console.log("response.filename", response.filename);
-            console.log("response.filetype", response.filetype);
-            console.log("response.iv", response.iv);
-            console.log("response.key", response.key);
-  
-            decryptAES(
-              response.encrypted,
-              response.iv,
-              response.key,
-              response.filetype,
-              response.filename
-            );
-          }
-        };
-
-
-      }
     }
 
     await getText();
@@ -515,32 +352,10 @@ export default function Home() {
                   .then((data) => {
                     console.log("data", data);
                     setData(data?.reverse());
-                    // setData(data);
-
-                    // data.forEach((e) => {
-                    //   console.log("e", e);
-                    //   let id = e.id;
-                    //   fetch(`https://api.estuary.tech/pinning/pins/${id}`, {
-                    //     method: "DELETE",
-                    //     headers: {
-                    //       Authorization:
-                    //         "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
-                    //     },
-                    //   })
-                    //     .then((data) => {
-                    //       // return data.json();
-                    //     })
-                    //     .then((data) => {
-                    //       // this.setState({ ...data });
-                    //     });
-                    // });
-                    ///
 
                     console.log("collection found");
                   });
               }
-
-              /////
             });
         }
 
@@ -587,15 +402,11 @@ export default function Home() {
     const formData = new FormData();
 
     formData.append("data", blob, fileName);
-    // formData.append('name',"bob)
     console.log("formData", formData);
     console.log("formData('Data')", formData.getAll("data"));
 
     console.log("Array", Array.from(formData));
-    // NOTE
-    // This example uses XMLHttpRequest() instead of fetch
-    // because we want to show progress. But you can use
-    // fetch in this example if you like.
+
     const xhr = new XMLHttpRequest();
 
     xhr.upload.onprogress = (event) => {
@@ -654,8 +465,6 @@ export default function Home() {
 
                 console.log("data at get collection", data);
               });
-            //////////
-            //////////
           }
         };
       }
@@ -738,21 +547,10 @@ export default function Home() {
                   (Table.TableOnRowClick = (e) => {
                     console.log("e", e), decryptData(e);
                   })
-
-                  // window.open(
-                  //   "https://dweb.link/ipfs/" + e.cid["/"],
-                  //   "_blank"
-                  // )
                 }
               >
                 <Table.Column prop="name" label="Name" />
-                {/* <Table.Column prop="cid:" label="Cid" /> */}
-                <Table.Column
-                  // prop={"cid[/]"}
-                  prop="cid"
-                  label="Cid"
-                  width={150}
-                />
+                <Table.Column prop="cid" label="Cid" width={150} />
               </Table>
             )}
             {welcomeModal()}
