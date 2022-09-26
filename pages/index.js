@@ -346,6 +346,49 @@ export default function Home() {
           );
         }
       };
+
+      request.onerror = (e) => {
+        console.log('there was an error trying with api.estuary')
+        var request = new XMLHttpRequest();
+        request.open(
+          "GET",
+          `https://api.estuary.tech/public/by-cid/${cid}`,
+          true
+        );
+  
+        request.responseType = "blob";
+        request.send(null);
+        request.onreadystatechange = async function () {
+          if (request.readyState === 4 && request.status === 200) {
+            response = request.response;
+            console.log("request.response;", response);
+  
+            console.log(
+              "JSON.parse(response)",
+              JSON.parse(await response.text())
+            );
+  
+            response = JSON.parse(await response.text());
+  
+            console.log("response", response);
+            console.log("response.encrypted", response.encrypted);
+            console.log("response.filename", response.filename);
+            console.log("response.filetype", response.filetype);
+            console.log("response.iv", response.iv);
+            console.log("response.key", response.key);
+  
+            decryptAES(
+              response.encrypted,
+              response.iv,
+              response.key,
+              response.filetype,
+              response.filename
+            );
+          }
+        };
+
+
+      }
     }
 
     await getText();
@@ -387,7 +430,7 @@ export default function Home() {
 
           ///// 1. check if colleciton exists for the account
           console.log("use effect");
-          await fetch("https://api.estuary.tech/collections/list", {
+          await fetch("https://api.estuary.tech/collections/", {
             method: "GET",
             headers: {
               Authorization:
@@ -414,7 +457,7 @@ export default function Home() {
 
               if (uuid == undefined) {
                 console.log("uuid not found; createing new one");
-                fetch("https://api.estuary.tech/collections/create", {
+                fetch("https://api.estuary.tech/collections/", {
                   method: "POST",
                   headers: {
                     Authorization:
@@ -426,6 +469,7 @@ export default function Home() {
                   }),
                 })
                   .then((data) => {
+                    console.log("data at post new collection", data);
                     return data.json();
                   })
                   .then((data) => {
@@ -433,16 +477,13 @@ export default function Home() {
                     let uuid = data.uuid;
                     setcollectionUUid(uuid);
                     //
-                    fetch(
-                      `https://api.estuary.tech/collections/content?coluuid=${uuid}`,
-                      {
-                        method: "GET",
-                        headers: {
-                          Authorization:
-                            "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
-                        },
-                      }
-                    )
+                    fetch(`https://api.estuary.tech/collections/${uuid}`, {
+                      method: "GET",
+                      headers: {
+                        Authorization:
+                          "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
+                      },
+                    })
                       .then((data) => {
                         return data.json();
                       })
@@ -461,16 +502,13 @@ export default function Home() {
               if (uuid != undefined) {
                 console.log("uuid at found", uuid);
                 console.log("uuid found! let me get that collection");
-                fetch(
-                  `https://api.estuary.tech/collections/content?coluuid=${uuid}`,
-                  {
-                    method: "GET",
-                    headers: {
-                      Authorization:
-                        "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
-                    },
-                  }
-                )
+                fetch(`https://api.estuary.tech/collections/${uuid}`, {
+                  method: "GET",
+                  headers: {
+                    Authorization:
+                      "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
+                  },
+                })
                   .then((data) => {
                     return data.json();
                   })
@@ -570,23 +608,26 @@ export default function Home() {
             console.log("response", xhr.response);
             uploadSuccess();
 
-            let resposneCid = JSON.parse(xhr.response);
-            console.log("resposneCid", resposneCid);
-
-            resposneCid = resposneCid.cid;
-            console.log("resposneCid", resposneCid);
-
+            let response = JSON.parse(xhr.response);
+            console.log("response", response);
+            let responseCid = response.cid;
+            // let contentId = response.estuaryId;
+            // console.log("responseCid", responseCid);
+            // console.log("contentId", contentId);
             console.log("collectionUUid", collectionUUid);
-            fetch("https://api.estuary.tech/collections/add-content", {
+
+            //add to collection
+            // https://shuttle-5.estuary.tech
+            fetch(`https://api.estuary.tech/content/add-ipfs`, {
               method: "POST",
               headers: {
                 Authorization:
                   "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
               },
               body: JSON.stringify({
-                contents: [],
-                cids: [resposneCid],
+                root: responseCid,
                 coluuid: collectionUUid,
+                filename: blob.name,
               }),
             })
               .then((data) => {
@@ -596,16 +637,15 @@ export default function Home() {
                 console.log("add-content", data);
               });
 
-            fetch(
-              `https://api.estuary.tech/collections/content?coluuid=${collectionUUid}`,
               {
                 method: "GET",
-                headers: {
-                  Authorization:
-                    "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
-                },
-              }
-            )
+            fetch(`https://api.estuary.tech/collections/${collectionUUid}`, {
+              method: "GET",
+              headers: {
+                Authorization:
+                  "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY",
+              },
+            })
               .then((data) => {
                 console.log("data from response", data);
                 return data.json();
@@ -622,8 +662,8 @@ export default function Home() {
         };
       }
     };
-    // xhr.open("POST", "https://api.estuary.tech/content/add");
     xhr.open("POST", "https://shuttle-5.estuary.tech/content/add");
+    // xhr.open("POST", "https://api.estuary.tech/content/add");
     xhr.setRequestHeader(
       "Authorization",
       "Bearer EST77f86378-f332-421a-b42b-d8eba6b384e8ARY"
