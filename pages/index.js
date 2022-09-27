@@ -192,7 +192,8 @@ export default function Home() {
       var request = new XMLHttpRequest();
       request.open(
         "GET",
-        "https://shuttle-5.estuary.tech/gw/ipfs/" + cid,
+        // "https://shuttle-5.estuary.tech/gw/ipfs/" + cid,
+        "https://dweb.link/ipfs/" + cid, 
         true
       );
 
@@ -429,6 +430,8 @@ export default function Home() {
 
             //add to collection
             // https://shuttle-5.estuary.tech
+            // fetch(`https://api.estuary.tech/content/add-ipfs`, {
+
             fetch(`https://api.estuary.tech/content/add-ipfs`, {
               method: "POST",
               headers: {
